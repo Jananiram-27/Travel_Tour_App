@@ -34,3 +34,19 @@ export const login = async (userData) => {
       return { success: false, message: "Login failed" };
     }
   };
+
+
+  export const submitFeedback = async (feedbackData) => {
+    try {
+      const response = await fetch(`${API_URL}/feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(feedbackData),
+      });
+  
+      return response.json();
+    } catch (error) {
+      console.error("Feedback Error:", error);
+      return { success: false, message: "Feedback submission failed" };
+    }
+  };

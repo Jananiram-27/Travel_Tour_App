@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { submitFeedback } from "../Pages/authapi";
 import "./Feedback.css";
 
 const Feedback = () => {
@@ -8,18 +9,22 @@ const Feedback = () => {
     message: "",
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.message) {
-      console.log("Feedback Submitted:", formData);
-      setSubmitted(true);
+
+    const response = await submitFeedback(formData);
+
+    if (response.success) {
+      setSuccessMessage("✅ Thank you for your feedback!");
       setFormData({ name: "", email: "", message: "" });
+    } else {
+      setSuccessMessage(" Feedback submission failed.");
     }
   };
 
@@ -27,8 +32,8 @@ const Feedback = () => {
     <div className="feedback-container">
       <h1 className="feedback-title">Feedback Form</h1>
 
-      {submitted ? (
-        <p className="success-message">✅ Thank you for your feedback!</p>
+      {successMessage ? (
+        <p className="success-message">{successMessage}</p>
       ) : (
         <form className="feedback-form" onSubmit={handleSubmit}>
           <input
