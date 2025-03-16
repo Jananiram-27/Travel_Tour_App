@@ -90,7 +90,7 @@
 
 
 .delete-button {
-    background: red;
+    background: rgb(150, 84, 84);
     color: white;
     border: none;
     padding: 5px 10px;
@@ -99,5 +99,5 @@
 }
 
 .delete-button:hover {
-    background: darkred;
+    background: rgb(153, 77, 77);
 }
