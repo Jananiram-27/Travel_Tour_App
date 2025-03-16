@@ -19,7 +19,7 @@ const connectDB = async () => {
 };
 connectDB();
 
-// User Schema
+
 const User = mongoose.model(
   "User",
   new mongoose.Schema({
@@ -29,7 +29,7 @@ const User = mongoose.model(
   })
 );
 
-// Feedback Schema (No separate file)
+
 const Feedback = mongoose.model(
   "Feedback",
   new mongoose.Schema({
@@ -40,7 +40,7 @@ const Feedback = mongoose.model(
   })
 );
 
-// Signup Route
+
 app.post("/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -61,7 +61,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// Login Route
+
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -79,7 +79,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Feedback Routes (No separate file)
+
 app.post("/feedback", async (req, res) => {
   try {
     const { name, email, message } = req.body;
@@ -98,7 +98,7 @@ app.post("/feedback", async (req, res) => {
   }
 });
 
-// Fetch All Feedbacks
+
 app.get("/feedback", async (req, res) => {
   try {
     const feedbacks = await Feedback.find();
@@ -109,10 +109,10 @@ app.get("/feedback", async (req, res) => {
   }
 });
 
-// Default Route
+
 app.get("/", (req, res) => {
   res.send("Backend is running!");
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
