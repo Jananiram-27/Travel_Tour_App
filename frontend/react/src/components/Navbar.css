@@ -1,0 +1,30 @@
+nav {
+    background: #65e489;
+    padding: 10px 20px;
+  }
+  
+  ul {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 30px; 
+  }
+  
+  li {
+    margin: 0;
+  }
+  
+  a {
+    color: rgb(49, 20, 91);
+    text-decoration: none;
+    font-size: 18px;
+    padding: 5px 10px; 
+  }
+  
+  a:hover {
+    color: rgb(218, 32, 3);
+  }
+  
