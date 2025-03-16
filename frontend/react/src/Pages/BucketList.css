@@ -2,17 +2,21 @@
     max-width: 800px;
     margin: 50px auto;
     padding: 20px;
-    background: #f8f9fa;
+    background: #e9ece9;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    color: white;
 }
 
+.bucket-container {
+    color: rgb(7, 135, 65);
+}
 
 .title {
     font-size: 28px;
     font-weight: bold;
-    color: #333;
+    color: #031d05;
     margin-bottom: 20px;
 }
 
@@ -27,8 +31,8 @@
     width: 70%;
     padding: 10px;
     font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
+    border: 2px solid #022612;
+    border-radius: 10px;
     outline: none;
 }
 
@@ -44,7 +48,7 @@
 }
 
 .add-button:hover {
-    background: darkgreen;
+    background: rgb(99, 187, 99);
 }
 
 
@@ -90,7 +94,7 @@
 
 
 .delete-button {
-    background: rgb(150, 84, 84);
+    background: rgb(97, 88, 88);
     color: white;
     border: none;
     padding: 5px 10px;
