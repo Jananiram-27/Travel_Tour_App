@@ -4,7 +4,7 @@ import "./Destinations.css";
 const Destinations = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
-  const [otp, setOtp] = useState("");
+
   const [isProcessing, setIsProcessing] = useState(false);
 
   const prices = {
@@ -40,18 +40,18 @@ const Destinations = () => {
     setBookingConfirmed(false);
   };
   const handleProceedToPayment = () => {
-    // Show a fake loading effect
+
     setBookingConfirmed(false);
 
     setTimeout(() => {
-      alert("Payment Successful! (Simulated)");
+      alert("Payment Successful! Enjoy the trip");
       setBookingConfirmed(true);
 
       setTimeout(() => {
         setSelectedDestination(null);
         setBookingConfirmed(false);
-      }, 2000); // Auto-close modal after 2 seconds
-    }, 2000); // Simulating payment delay
+      }, 2000);
+    }, 2000);
   };
 
   return (
@@ -188,6 +188,7 @@ const Destinations = () => {
         </div>
       </div>
 
+
       {selectedDestination && (
         <div className="modal">
           <div className="modal-content">
@@ -195,22 +196,9 @@ const Destinations = () => {
             <p>Price: {prices[selectedDestination]}</p>
 
             {!bookingConfirmed ? (
-              <>
-                <input
-                  type="text"
-                  placeholder="Enter OTP"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  className="otp-input"
-                />
-                <button
-                  className="pay-now-btn"
-                  onClick={handleProceedToPayment}
-                  disabled={isProcessing}
-                >
-                  {isProcessing ? "Processing..." : "Proceed to Payment"}
-                </button>
-              </>
+              <button className="pay-now-btn" onClick={handleProceedToPayment}>
+                Proceed to Payment
+              </button>
             ) : (
               <p style={{ color: "green", fontWeight: "bold" }}>Booking Confirmed!</p>
             )}
@@ -219,8 +207,6 @@ const Destinations = () => {
           </div>
         </div>
       )}
-
-
 
 
     </div>
