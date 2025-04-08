@@ -10,6 +10,7 @@ export const signup = async (userData) => {
       body: JSON.stringify(userData),
     });
 
+    
     if (!response.ok) {
       throw new Error(`Signup failed: ${response.statusText}`);
     }
@@ -21,26 +22,24 @@ export const signup = async (userData) => {
   }
 };
 
-export const login = async (userData) => {
+export const login = async (email, password) => {
   try {
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch("http://localhost:5000/login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
     });
 
-    if (!response.ok) {
-      throw new Error(`Login failed: ${response.statusText}`);
-    }
+    const data = await response.json();
+    console.log("Login Response Data:", data);
 
-    return await response.json();
+    return data;
   } catch (error) {
     console.error("Login Error:", error);
-    return { success: false, message: "Login failed. Please check your credentials." };
+    return { success: false, message: "Login failed due to server error." };
   }
 };
+
 
 export const submitFeedback = async (feedbackData) => {
   try {
