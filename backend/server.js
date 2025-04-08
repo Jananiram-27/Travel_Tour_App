@@ -3,11 +3,29 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
-
 const app = express();
 app.use(cors());
 app.use(express.json());
+const jwt = require("jsonwebtoken"); 
 
+const JWT_SECRET = process.env.JWT_SECRET; 
+
+
+
+
+const authenticateToken = (req, res, next) => {
+  const token = req.header("Authorization");
+
+  if (!token) return res.status(401).json({ success: false, message: "Access Denied" });
+
+  try {
+    const verified = jwt.verify(token, JWT_SECRET);
+    req.user = verified;
+    next();
+  } catch (error) {
+    res.status(400).json({ success: false, message: "Invalid Token" });
+  }
+};
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {});
@@ -43,7 +61,12 @@ const Feedback = mongoose.model(
 
 app.post("/signup", async (req, res) => {
   try {
+    console.log("Signup Request Body:", req.body);  // Debugging log
+
     const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ success: false, message: "All fields are required" });
+    }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -64,15 +87,25 @@ app.post("/signup", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   try {
+    console.log("Login Request Body:", req.body);
     const { email, password } = req.body;
+    if (!email || !password) {
+      console.log("Missing email or password"); // Debug log
+      return res.status(400).json({ success: false, message: "Email and password are required" });
+    }
 
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ success: false, message: "User not found" });
-
+    if (!user) {
+      console.log("User not found"); 
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ success: false, message: "Invalid credentials" });
-
-    res.status(200).json({ success: true, message: "Login Successful", user: { id: user._id, email: user.email } });
+    if (!isMatch) 
+      { console.log("Invalid password"); 
+        return res.status(400).json({ success: false, message: "Invalid credentials" });
+      }
+    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: "1m" });
+    res.status(200).json({ success: true, message: "Login Successful",token, user: { id: user._id, email: user.email } });
   } catch (err) {
     console.error("Login Error:", err);
     res.status(500).json({ success: false, message: "Server Error" });
@@ -109,10 +142,14 @@ app.get("/feedback", async (req, res) => {
   }
 });
 
+app.get("/protected-route", authenticateToken, (req, res) => {
+  res.json({ success: true, message: "You have access!", user: req.user });
+});
 
 app.get("/", (req, res) => {
   res.send("Backend is running!");
 });
 
+console.log(process.env.JWT_SECRET);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
